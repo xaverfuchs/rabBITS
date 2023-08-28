@@ -36,5 +36,10 @@ usethis::use_github()
 
 usethis::use_pkgdown_github_pages()
 
+usethis::create_from_github("xaverfuchs/rabBITS", fork = FALSE)
+
+
+#git setup
+use_git_config(user.name = "xaverfuchs", user.email = "xfuchs@gmx.de")
 
 
