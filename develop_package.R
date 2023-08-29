@@ -1,3 +1,5 @@
+
+#Part 1: package createion and development
 library(devtools)
 
 create_package("/Users/b1082752/Nextcloud/GitHub repositories/rabBITS") #done
@@ -8,15 +10,16 @@ use_r()
 
 load_all()
 
+install()
 
+
+# Website creeateion
 usethis::use_pkgdown()
-
-
 pkgdown::build_site()
 
 
 
-#sticker creation
+# Sticker creation
 library(hexSticker)
 imgurl <- "logo/rabbit.png"
 sticker(imgurl, package="rabBITS", s_x=1, s_y=1, s_width=1,
@@ -25,21 +28,23 @@ sticker(imgurl, package="rabBITS", s_x=1, s_y=1, s_width=1,
         h_color="green",
         white_around_sticker = T,
         filename="logo/logoimg.png")
-
-
-
 usethis::use_logo(img = "logo/logoimg.png")
 
 
-
+# Github commands
 usethis::use_github()
-
-usethis::use_pkgdown_github_pages()
-
+usethis::use_pkgdown_github_pages() #this does not work for me
 usethis::create_from_github("xaverfuchs/rabBITS", fork = FALSE)
 
 
 #git setup
 use_git_config(user.name = "xaverfuchs", user.email = "xfuchs@gmx.de")
+
+
+#Readme File
+use_readme_rmd()
+devtools::build_readme()
+
+
 
 
