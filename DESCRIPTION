@@ -1,12 +1,19 @@
 Package: rabBITS
-Title: What the Package Does (One Line, Title Case)
+Title: Bayesian Integration of Time and Space
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+    person(given="Xaver", family="Fuchs", email="xaver.fuchs@plus.ac.at", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-7690-8969"))
+Description: This package implements Bayesian Observer models of perceptual spatiotemporal illusions, such as the tau effect, kappa effect, and cutaneous rabbit effect. 
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
+Imports:
+    tidyverse,
+    cowplot
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+URL: https://xaverfuchs.github.io/rabBITS/

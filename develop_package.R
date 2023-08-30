@@ -46,5 +46,11 @@ use_readme_rmd()
 devtools::build_readme()
 
 
+# Authoring vignettes
+usethis::use_vignette("Bayes_Modeling_Intro")
+
+# Authtoring functions
+usethis::use_r("two_tap_model.R")
+
 
 
