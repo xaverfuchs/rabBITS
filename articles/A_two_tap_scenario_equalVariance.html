@@ -248,12 +248,12 @@ vectors. You will see applications of that in the examples below.</p>
 <p>The following parameters are used in the article and are used here
 for plotting.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">### Paramters of the stimuli and observer</span></span>
-<span><span class="va">x1m</span><span class="op">=</span><span class="fl">3</span> <span class="co">#measured positin of tap 1 (in cm)</span></span>
-<span><span class="va">x2m</span><span class="op">=</span><span class="fl">7</span> <span class="co">#measured positino of tap 2 (in cm)</span></span>
-<span><span class="va">time_t</span> <span class="op">=</span> <span class="fl">0.15</span> <span class="co">#time between stimuli, i.e. interstimulus time (in seconds)</span></span>
+<code class="sourceCode R"><span><span class="co">### Parameters of the stimuli and observer</span></span>
+<span><span class="va">x1m</span><span class="op">=</span><span class="fl">3</span> <span class="co">#measured position of tap 1 (in cm)</span></span>
+<span><span class="va">x2m</span><span class="op">=</span><span class="fl">7</span> <span class="co">#measured position of tap 2 (in cm)</span></span>
+<span><span class="va">time_t</span> <span class="op">=</span> <span class="fl">0.15</span> <span class="co">#time between stimuli, i.e., interstimulus time (in seconds)</span></span>
 <span><span class="va">sigma_s</span> <span class="op">=</span> <span class="fl">1</span> <span class="co">#spatial (im)precision (in cm as a sd)</span></span>
-<span><span class="va">sigma_v</span> <span class="op">=</span> <span class="fl">10</span> <span class="co">#low speed prior   (in cm/s as an sd)</span></span></code></pre></div>
+<span><span class="va">sigma_v</span> <span class="op">=</span> <span class="fl">10</span> <span class="co">#low speed prior (in cm/s as an sd)</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="parameters-for-the-plots">Parameters for the plots<a class="anchor" aria-label="anchor" href="#parameters-for-the-plots"></a>
@@ -269,7 +269,10 @@ for plotting.</p>
 <span></span>
 <span><span class="co">#matrix for the x1-x2 combinations</span></span>
 <span><span class="va">x1x2Mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span>x1<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="va">x1_range</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">x1_range</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, length.out <span class="op">=</span> <span class="va">x1_res</span><span class="op">)</span>, x2<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="va">x2_range</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">x2_range</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, length.out <span class="op">=</span> <span class="va">x2_res</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Compute the values for the whole matrix</p>
+</div>
+<div class="section level4">
+<h4 id="compute-the-values-for-the-whole-matrix">Compute the values for the whole matrix<a class="anchor" aria-label="anchor" href="#compute-the-values-for-the-whole-matrix"></a>
+</h4>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">### XXX Compute prior density</span></span>
 <span><span class="va">x1x2Mat</span><span class="op">$</span><span class="va">prior</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prior_2Tap.html">prior_2Tap</a></span><span class="op">(</span>x1 <span class="op">=</span> <span class="va">x1x2Mat</span><span class="op">$</span><span class="va">x1</span>, x2 <span class="op">=</span> <span class="va">x1x2Mat</span><span class="op">$</span><span class="va">x2</span>, time_t <span class="op">=</span> <span class="va">time_t</span>, sigma_v <span class="op">=</span> <span class="va">sigma_v</span><span class="op">)</span></span>
