@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="index.html">rabBITS</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,6 +44,13 @@
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="articles/A_two_tap_scenario_equalVariance.html">The two-tap scenario with equal variances</a>
+    <a class="dropdown-item" href="articles/B_two_tap_scenario_unequalVar.html">The two-tap scenario with unequal variances</a>
+  </div>
 </li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
@@ -92,15 +99,8 @@
 <div class="section level2">
 <h2 id="example-case">Example case<a class="anchor" aria-label="anchor" href="#example-case"></a>
 </h2>
-<p>Let’s assume two touch stimuli are presented on the skin. The first tap in one position, and the second tap 5 cm further away from that, in position 2. We refer to these parameters as <em>x1m</em> and <em>x2m</em> and will use values of 2 and 7 cm, respecively. Let’s also assume the speed is fast, because there are only 100 ms (0.1 s) passing between them, which is the parameter <em>time_t</em>.</p>
-<p>The perception on the skin also has a certain precision, which is defined by the (inverse) precision given by the spatial standard deviation <em>sigma_s</em>. Finally, the model assumes a relatively low movement speed, which is given by the slow speed prior, defined as <em>sigma_v</em>.</p>
-<p>The package allows to easily compute the prior, likelihood, and posterior distributions for visualization and inference.</p>
-</div>
-<div class="section level2">
-<h2 id="example-case-1">Example case<a class="anchor" aria-label="anchor" href="#example-case-1"></a>
-</h2>
 <p>Let’s assume two touch stimuli are presented on the skin. The first tap in one position, and the second tap 5 cm further away from that, in position 2. We refer to these parameters as <em>x1m</em> and <em>x2m</em> and will use values of 2 and 7 cm, respecively. Let’s also assume the speed is fast, because there are only 100 ms (0.1 s) passing between them, which is the parameter <em>time_t</em></p>
-<p>The perception on the skin also has a certain precision, which is defined by the (inverse) precision given by the spatial standard deviation <em>sigma_s</em>, here 1 cm. Finally, the model assumes a relatively low movement speed, which is given by the slow speed prior, defined as <em>sigma_v</em>, here 10 cms/s.</p>
+<p>The perception on the skin also has a certain precision, which is defined by the (inverse) precision given by the spatial standard deviation <em>sigma_s</em>, here 1 cm. Finally, the model assumes a relatively low movement speed, which is given by the slow speed prior, defined as <em>sigma_v</em>, here 10 cm/s.</p>
 <p>The package allows to easily compute the prior, likelihood, and posterior distributions for visualization and inference.</p>
 <div class="section level3">
 <h3 id="plots-of-prior-likelihood-and-posterior">Plots of prior, likelihood, and posterior<a class="anchor" aria-label="anchor" href="#plots-of-prior-likelihood-and-posterior"></a>
@@ -110,16 +110,27 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">### XXX Compute prior density</span></span>
+<span><span class="co">### Paramters of the stimuli and observer</span></span>
+<span><span class="va">x1m</span><span class="op">=</span><span class="fl">2</span> <span class="co">#measured positin of tap 1</span></span>
+<span><span class="va">x2m</span><span class="op">=</span><span class="fl">7</span> <span class="co">#measured positino of tap 2</span></span>
+<span><span class="va">time_t</span> <span class="op">=</span> <span class="fl">0.1</span> <span class="co">#time between stimuli, i.e. interstimulus time</span></span>
+<span><span class="va">sigma_s</span> <span class="op">=</span> <span class="fl">1</span> <span class="co">#spatial (im)precision</span></span>
+<span><span class="va">sigma_v</span> <span class="op">=</span> <span class="fl">10</span> <span class="co">#low speed prior </span></span>
+<span></span>
+<span></span>
+<span></span>
+<span><span class="co">### Paraeters for the plots</span></span>
 <span><span class="va">x1_range</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span><span class="op">)</span> <span class="co">#range for taps</span></span>
 <span><span class="va">x2_range</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">x1_res</span> <span class="op">&lt;-</span> <span class="fl">100</span> <span class="co">#resolution for graphs</span></span>
 <span><span class="va">x2_res</span> <span class="op">&lt;-</span> <span class="fl">100</span></span>
 <span></span>
+<span></span>
+<span><span class="co">### XXX Compute prior density</span></span>
 <span><span class="va">priorMat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span>x1<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="va">x1_range</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">x1_range</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, length.out <span class="op">=</span> <span class="va">x1_res</span><span class="op">)</span>, x2<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="va">x2_range</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">x2_range</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, length.out <span class="op">=</span> <span class="va">x2_res</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">priorMat</span><span class="op">$</span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/prior_2Tap.html">prior_2Tap</a></span><span class="op">(</span>x1 <span class="op">=</span> <span class="va">priorMat</span><span class="op">$</span><span class="va">x1</span>, x2 <span class="op">=</span> <span class="va">priorMat</span><span class="op">$</span><span class="va">x2</span>, sigma_v <span class="op">=</span> <span class="fl">10</span>, time_t <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span>
+<span><span class="va">priorMat</span><span class="op">$</span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/prior_2Tap.html">prior_2Tap</a></span><span class="op">(</span>x1 <span class="op">=</span> <span class="va">priorMat</span><span class="op">$</span><span class="va">x1</span>, x2 <span class="op">=</span> <span class="va">priorMat</span><span class="op">$</span><span class="va">x2</span>, sigma_v <span class="op">=</span> <span class="va">sigma_v</span>, time_t <span class="op">=</span> <span class="va">time_t</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">priorMat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">x1</span>, y<span class="op">=</span><span class="va">x2</span>, fill<span class="op">=</span><span class="va">p</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_raster</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
@@ -129,28 +140,22 @@
 <span></span>
 <span></span>
 <span><span class="co">### XXX Compute likelihood</span></span>
-<span><span class="va">x1m_range</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span><span class="op">)</span> <span class="co">#range for taps</span></span>
-<span><span class="va">x2m_range</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="va">likelihoodMat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span>x1<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="va">x1_range</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">x1_range</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, length.out <span class="op">=</span> <span class="va">x1_res</span><span class="op">)</span>, x2<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="va">x2_range</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">x2_range</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, length.out <span class="op">=</span> <span class="va">x2_res</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">x1m_res</span> <span class="op">&lt;-</span> <span class="fl">100</span> <span class="co">#resolution for graphs</span></span>
-<span><span class="va">x2m_res</span> <span class="op">&lt;-</span> <span class="fl">100</span></span>
+<span><span class="va">likelihoodMat</span><span class="op">$</span><span class="va">l</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/likelihood_2Tap_EqVar.html">likelihood_2Tap_EqVar</a></span><span class="op">(</span>x1m<span class="op">=</span><span class="va">x1m</span>, x2m<span class="op">=</span><span class="va">x2m</span>, x1<span class="op">=</span><span class="va">likelihoodMat</span><span class="op">$</span><span class="va">x1</span>, x2<span class="op">=</span><span class="va">likelihoodMat</span><span class="op">$</span><span class="va">x2</span>, sigma_s <span class="op">=</span> <span class="va">sigma_s</span><span class="op">)</span></span>
 <span></span>
-<span></span>
-<span><span class="va">likelihoodMat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span>x1m<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="va">x1m_range</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">x1m_range</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, length.out <span class="op">=</span> <span class="va">x1m_res</span><span class="op">)</span>, x2m<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="va">x2m_range</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">x2m_range</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, length.out <span class="op">=</span> <span class="va">x2m_res</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">likelihoodMat</span><span class="op">$</span><span class="va">l</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/likelihood_2Tap_EqVar.html">likelihood_2Tap_EqVar</a></span><span class="op">(</span>x1m <span class="op">=</span> <span class="va">likelihoodMat</span><span class="op">$</span><span class="va">x1m</span>, x2m <span class="op">=</span> <span class="va">likelihoodMat</span><span class="op">$</span><span class="va">x2m</span>, x1<span class="op">=</span><span class="fl">2</span>, x2<span class="op">=</span><span class="fl">7</span>, sigma_s <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">likelihoodMat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">x1m</span>, y<span class="op">=</span><span class="va">x2m</span>, fill<span class="op">=</span><span class="va">l</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">likelihoodMat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">x1</span>, y<span class="op">=</span><span class="va">x2</span>, fill<span class="op">=</span><span class="va">l</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_raster</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_fixed</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"likelihood"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
 <span></span>
 <span></span>
+<span></span>
 <span><span class="co">### XXX Compute posterior density</span></span>
 <span><span class="va">posteriorMat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span>x1<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="va">x1_range</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">x1_range</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, length.out <span class="op">=</span> <span class="va">x1_res</span><span class="op">)</span>, x2<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="va">x2_range</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">x2_range</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, length.out <span class="op">=</span> <span class="va">x2_res</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">posteriorMat</span><span class="op">$</span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/posterior_2Tap_EqVar.html">posterior_2Tap_EqVar</a></span><span class="op">(</span>x1m <span class="op">=</span> <span class="fl">2</span>, x2m <span class="op">=</span> <span class="fl">7</span>, x1 <span class="op">=</span> <span class="va">posteriorMat</span><span class="op">$</span><span class="va">x1</span>, x2 <span class="op">=</span> <span class="va">posteriorMat</span><span class="op">$</span><span class="va">x2</span>, sigma_s <span class="op">=</span> <span class="fl">1</span>, sigma_v <span class="op">=</span> <span class="fl">10</span>, time_t <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span>
+<span><span class="va">posteriorMat</span><span class="op">$</span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/posterior_2Tap_EqVar.html">posterior_2Tap_EqVar</a></span><span class="op">(</span>x1m<span class="op">=</span><span class="va">x1m</span>, x2m<span class="op">=</span><span class="va">x2m</span>, x1 <span class="op">=</span> <span class="va">posteriorMat</span><span class="op">$</span><span class="va">x1</span>, x2 <span class="op">=</span> <span class="va">posteriorMat</span><span class="op">$</span><span class="va">x2</span>, sigma_s <span class="op">=</span> <span class="va">sigma_s</span>, sigma_v <span class="op">=</span> <span class="va">sigma_v</span>, time_t <span class="op">=</span> <span class="va">time_t</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">posteriorMat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">x1</span>, y<span class="op">=</span><span class="va">x2</span>, fill<span class="op">=</span><span class="va">p</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_raster</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>

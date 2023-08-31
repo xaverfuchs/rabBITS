@@ -10,6 +10,15 @@
     <loc>https://xaverfuchs.github.io/rabBITS/LICENSE.html</loc>
   </url>
   <url>
+    <loc>https://xaverfuchs.github.io/rabBITS/articles/A_two_tap_scenario_equalVariance.html</loc>
+  </url>
+  <url>
+    <loc>https://xaverfuchs.github.io/rabBITS/articles/B_two_tap_scenario_unequalVar.html</loc>
+  </url>
+  <url>
+    <loc>https://xaverfuchs.github.io/rabBITS/articles/index.html</loc>
+  </url>
+  <url>
     <loc>https://xaverfuchs.github.io/rabBITS/authors.html</loc>
   </url>
   <url>
@@ -22,10 +31,19 @@
     <loc>https://xaverfuchs.github.io/rabBITS/reference/likelihood_2Tap_EqVar.html</loc>
   </url>
   <url>
+    <loc>https://xaverfuchs.github.io/rabBITS/reference/likelihood_2Tap_UneqVar.html</loc>
+  </url>
+  <url>
     <loc>https://xaverfuchs.github.io/rabBITS/reference/posterior_2Tap_EqVar.html</loc>
   </url>
   <url>
+    <loc>https://xaverfuchs.github.io/rabBITS/reference/posterior_2Tap_UneqVar.html</loc>
+  </url>
+  <url>
     <loc>https://xaverfuchs.github.io/rabBITS/reference/posterior_params_2Tap_EqVar.html</loc>
+  </url>
+  <url>
+    <loc>https://xaverfuchs.github.io/rabBITS/reference/posterior_params_2Tap_UneqVar.html</loc>
   </url>
   <url>
     <loc>https://xaverfuchs.github.io/rabBITS/reference/prior_2Tap.html</loc>
