@@ -21,11 +21,11 @@ library(patchwork) #for adding ggplots
 ```
 
 
-# Two-tap case with unequal variances {#twotap-unequal-variances}
-In the previous article [REF], we covered the special case where the (inverse) spatial precision,*sigma_s* is the same for both spatial positions. This is often not realistic, as the spatial resolution of the skin varies between sections of the skin, even along one limb. 
+# Two-tap case with unequal variances
+In the previous article [REF], we covered the special case where the (inverse) spatial precision, *sigma_s* is the same for both spatial positions. This is often not realistic, as the spatial resolution of the skin varies between sections of the skin, even along one limb. 
 This can be addressed by a generalized form of the model, that takes single precision parameters for tap 1 and 2.
 
-## Prior-Likelihood-Posterior figure with unewual spatial variance
+## Prior-Likelihood-Posterior figure with unequal spatial variance
 We will create a different version of the figure, where *sigma_s1*, the inverse precision of tap 1, is 1 and *sigma_s2*, the inverse precisino of tap 2, takes the value of 2. 
 
 ### Model parameters
