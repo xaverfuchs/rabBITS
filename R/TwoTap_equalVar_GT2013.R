@@ -1,4 +1,4 @@
-#' Compute probability density for the two-tap scenario
+#' Compute prior probability density for the two-tap scenario
 #'
 #' @param x1 position of tap 1
 #' @param x2 position of tap 2
@@ -7,7 +7,7 @@
 #'
 #' @description
 #' The function computes values that are proportinoal to the prior probability for a trajectory defined by two stimuli. The code refers
-#' to the two-tap model as described in Goldreich & Tong (2013), given in formula A08.
+#' to the two-tap model as described in Goldreich & Tong (2013), given in **Formula A08**.
 #'
 #'
 #' @return values that are proportional to the prior probability for the given trajectory. If x1 and x2 are vectors, a vector of prior probabilities.
@@ -32,9 +32,9 @@
 #' x1_res <- 100 #resolution for graphs
 #' x2_res <- 100
 #'
-#' priorMat <- expand.grid(x1=seq(x1_range[1], x1_range[2], length.out = x1_res),
-#' x2=seq(x2_range[1], x2_range[2], length.out = x2_res))
-#' priorMat$p <- prior_2Tap(x1 = priorMat$x1, x2 = priorMat$x2, sigma_v = 10, time_t = 0.1)
+#' priorMat <- expand.grid(x1=seq(x1_range[1], x1_range[2], length.out=x1_res),
+#' x2=seq(x2_range[1], x2_range[2], length.out=x2_res))
+#' priorMat$p <- prior_2Tap(x1=priorMat$x1, x2=priorMat$x2, sigma_v=10, time_t=0.1)
 #' ggplot(priorMat, aes(x=x1, y=x2, fill=p)) +
 #'   geom_raster() +
 #'   coord_fixed() +
@@ -59,10 +59,10 @@ prior_2Tap <- function(x1, x2, time_t, sigma_v) {
 #'
 #' @description
 #' The function computes likelihood values for the given trajectory.
-#' The code refers to the two-tap model with equal variance (spatial uncertainty) for both taps as described in Goldreich & Tong (2013), given in formula A11.
+#' The code refers to the two-tap model with equal variance (spatial uncertainty) for both taps as described in Goldreich & Tong (2013), given in **Formula A11**.
 #'
 #'
-#' @return likelihood values (see article for details or the vignette on the two-tap scenario). If x1m and x2m are vectors, a vector of likelihood values is returned.
+#' @return likelihood values (see article for details or the vignette on the two-tap scenario). If x1 and x2 are vectors, a vector of likelihood values is returned.
 #'
 #' @export
 #'
@@ -72,17 +72,17 @@ prior_2Tap <- function(x1, x2, time_t, sigma_v) {
 #' #XXX Example 1: compute a single point estimate XXX
 #' likelihood_2Tap_EqVar(x1m=2, x2m=4, x1=1, x2=2, sigma_s=1)
 #'
-#' #XXX Example 2: plot a prior distribution for cobinations of tap 1 and 2 XXX
+#' #XXX Example 2: plot a likelihood function for combinations of tap 1 and 2 XXX
 #' library(ggplot2)
-#' x1m_range <- c(0, 10) #range for taps
-#' x2m_range <- c(0, 10)
+#' x1_range <- c(0, 10) #range for taps
+#' x2_range <- c(0, 10)
 #'
-#' x1m_res <- 100 #resolution for graphs
-#' x2m_res <- 100
+#' x1_res <- 100 #resolution for graphs
+#' x2_res <- 100
 #'
-#' likelihoodMat <- expand.grid(x1m=seq(x1m_range[1], x1m_range[2], length.out = x1m_res), x2m=seq(x2m_range[1], x2m_range[2], length.out = x2m_res))
-#' likelihoodMat$l <- likelihood_2Tap_EqVar(x1m = likelihoodMat$x1m, x2m = likelihoodMat$x2m, x1=2, x2=4, sigma_s = 1)
-#' ggplot(likelihoodMat, aes(x=x1m, y=x2m, fill=l)) +
+#' likelihoodMat <- expand.grid(x1=seq(x1_range[1], x1_range[2], length.out=x1_res), x2=seq(x2_range[1], x2_range[2], length.out=x2_res))
+#' likelihoodMat$l <- likelihood_2Tap_EqVar(x1m=2, x2m=4, x1=likelihoodMat$x1, x2=likelihoodMat$x2, sigma_s=1)
+#' ggplot(likelihoodMat, aes(x=x1, y=x2, fill=l)) +
 #'   geom_raster() +
 #'   coord_fixed() +
 #'   ggtitle("likelihood")
@@ -97,10 +97,6 @@ likelihood_2Tap_EqVar <- function(x1m, x2m, x1, x2, sigma_s) {
 }
 
 
-
-
-
-
 #' Compute posterior probability density for the two-tap scenario with equal spatial variance
 #'
 #' @param x1m measured/sensed or hypothetical position of tap 1 for which the likelihood (p given the other parameters) is computed
@@ -113,8 +109,8 @@ likelihood_2Tap_EqVar <- function(x1m, x2m, x1, x2, sigma_s) {
 #'
 #'
 #' @description
-#' The function computes  values taht are proportional to the posterior probability values for the given trajectory.
-#' The code refers to the two-tap model with equal variance (spatial uncertainty) for both taps as described in Goldreich & Tong (2013), given in formula A13.
+#' The function computes  values that are proportional to the posterior probability values for the given trajectory.
+#' The code refers to the two-tap model with equal variance (spatial uncertainty) for both taps as described in Goldreich & Tong (2013), given in **Formula A13**.
 #'
 #'
 #' @return values that are proportional to the posterior probability for the given trajectory. If x1 and x2 are vectors, a vector of probabilities is returned.
@@ -124,9 +120,9 @@ likelihood_2Tap_EqVar <- function(x1m, x2m, x1, x2, sigma_s) {
 #'
 #' @examples
 #' #XXX Example 1: compute a single point estimate XXX
-#' posterior_2Tap_EqVar(x1m = 2, x2m = 4, x1 = 2, x2 = 4, sigma_s = 1, sigma_v = 10, time_t = 0.1)
+#' posterior_2Tap_EqVar(x1m=2, x2m=4, x1=2, x2=4, sigma_s=1, sigma_v=10, time_t=0.1)
 #'
-#' #XXX Example 2: plot a prior distribution for cobinations of tap 1 and 2 XXX
+#' #XXX Example 2: plot a posterior distribution for combinations of tap 1 and 2 XXX
 #' library(ggplot2)
 #' x1_range <- c(0, 10) #range for taps
 #' x2_range <- c(0, 10)
@@ -134,9 +130,9 @@ likelihood_2Tap_EqVar <- function(x1m, x2m, x1, x2, sigma_s) {
 #' x1_res <- 100 #resolution for graphs
 #' x2_res <- 100
 #'
-#' posteriorMat <- expand.grid(x1=seq(x1_range[1], x1_range[2], length.out = x1_res), x2=seq(x2_range[1], x2_range[2], length.out = x2_res))
+#' posteriorMat <- expand.grid(x1=seq(x1_range[1], x1_range[2], length.out=x1_res), x2=seq(x2_range[1], x2_range[2], length.out=x2_res))
 #'
-#' posteriorMat$p <- posterior_2Tap_EqVar(x1m = 2, x2m = 4, x1 = posteriorMat$x1, x2 = posteriorMat$x2, sigma_s = 1, sigma_v = 10, time_t = 0.1)
+#' posteriorMat$p <- posterior_2Tap_EqVar(x1m=2, x2m=4, x1=posteriorMat$x1, x2=posteriorMat$x2, sigma_s=1, sigma_v=10, time_t=0.1)
 #'
 #' ggplot(posteriorMat, aes(x=x1, y=x2, fill=p)) +
 #'   geom_raster() +
@@ -164,7 +160,7 @@ posterior_2Tap_EqVar <- function(x1m, x2m, x1, x2, time_t, sigma_s, sigma_v) {
 #' @description
 #' The function computes parameters of the 2-dimensional posterior distrbution, namely, the posterior modes for both dimensions (corresponding to taps 1 and tap 2),
 #' the variance, and correlation.
-#' The code refers to the two-tap model with equal variance (spatial uncertainty) for both taps as described in Goldreich & Tong (2013), given in formula A14.
+#' The code refers to the two-tap model with equal variance (spatial uncertainty) for both taps as described in Goldreich & Tong (2013), given in **Formula A14**.
 #'
 #' @return a list containing the posterior modes, the variance, and the correlation.
 #'
@@ -172,20 +168,18 @@ posterior_2Tap_EqVar <- function(x1m, x2m, x1, x2, time_t, sigma_s, sigma_v) {
 #'
 #' @examples
 #' #posterior parameters for the given parameters...
-#' posterior_params_2Tap_EqVar(x1m = 2, x2m = 4, sigma_s = 1, sigma_v = 10, time_t = 0.1)
+#' posterior_params_2Tap_EqVar(x1m=2, x2m=4, time_t=0.1, sigma_s=1, sigma_v=10)
 #'
 #' @references Goldreich & Tong, 2013, Frontiers in Psychology
 
 posterior_params_2Tap_EqVar <- function(x1m, x2m, time_t, sigma_s, sigma_v) {
   x1_star <- function(x1m, x2m, time_t, sigma_s, sigma_v) {
     x1_star <- x1m * (((sigma_v*time_t)^2+sigma_s^2) / ((sigma_v*time_t)^2+2*sigma_s^2)) + x2m * (sigma_s^2 / ((sigma_v*time_t)^2+2*sigma_s^2))
-
     return(x1_star)
   }
 
   x2_star <- function(x1m, x2m, time_t, sigma_s, sigma_v) {
     x2_star <- x1m * (sigma_s^2 / ((sigma_v*time_t)^2+2*sigma_s^2)) + x2m * (((sigma_v*time_t)^2+sigma_s^2) / ((sigma_v*time_t)^2+2*sigma_s^2))
-
     return(x2_star)
   }
 

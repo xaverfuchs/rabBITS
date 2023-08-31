@@ -55,31 +55,13 @@ in one position, and the second tap 5 cm further away from that, in
 position 2. We refer to these parameters as *x1m* and *x2m* and will use
 values of 2 and 7 cm, respecively. Let’s also assume the speed is fast,
 because there are only 100 ms (0.1 s) passing between them, which is the
-parameter *time_t*.
-
-The perception on the skin also has a certain precision, which is
-defined by the (inverse) precision given by the spatial standard
-deviation *sigma_s*. Finally, the model assumes a relatively low
-movement speed, which is given by the slow speed prior, defined as
-*sigma_v*.
-
-The package allows to easily compute the prior, likelihood, and
-posterior distributions for visualization and inference.
-
-## Example case
-
-Let’s assume two touch stimuli are presented on the skin. The first tap
-in one position, and the second tap 5 cm further away from that, in
-position 2. We refer to these parameters as *x1m* and *x2m* and will use
-values of 2 and 7 cm, respecively. Let’s also assume the speed is fast,
-because there are only 100 ms (0.1 s) passing between them, which is the
 parameter *time_t*
 
 The perception on the skin also has a certain precision, which is
 defined by the (inverse) precision given by the spatial standard
 deviation *sigma_s*, here 1 cm. Finally, the model assumes a relatively
 low movement speed, which is given by the slow speed prior, defined as
-*sigma_v*, here 10 cms/s.
+*sigma_v*, here 10 cm/s.
 
 The package allows to easily compute the prior, likelihood, and
 posterior distributions for visualization and inference.
@@ -91,16 +73,27 @@ library(rabBITS)
 library(ggplot2)
 library(patchwork)
 
-### XXX Compute prior density
+### Paramters of the stimuli and observer
+x1m=2 #measured positin of tap 1
+x2m=7 #measured positino of tap 2
+time_t = 0.1 #time between stimuli, i.e. interstimulus time
+sigma_s = 1 #spatial (im)precision
+sigma_v = 10 #low speed prior 
+
+
+
+### Paraeters for the plots
 x1_range <- c(0, 10) #range for taps
 x2_range <- c(0, 10)
 
 x1_res <- 100 #resolution for graphs
 x2_res <- 100
 
+
+### XXX Compute prior density
 priorMat <- expand.grid(x1=seq(x1_range[1], x1_range[2], length.out = x1_res), x2=seq(x2_range[1], x2_range[2], length.out = x2_res))
 
-priorMat$p <- prior_2Tap(x1 = priorMat$x1, x2 = priorMat$x2, sigma_v = 10, time_t = 0.1)
+priorMat$p <- prior_2Tap(x1 = priorMat$x1, x2 = priorMat$x2, sigma_v = sigma_v, time_t = time_t)
 
 p1 <- ggplot(priorMat, aes(x=x1, y=x2, fill=p)) +
   geom_raster() +
@@ -110,28 +103,22 @@ p1 <- ggplot(priorMat, aes(x=x1, y=x2, fill=p)) +
 
 
 ### XXX Compute likelihood
-x1m_range <- c(0, 10) #range for taps
-x2m_range <- c(0, 10)
+likelihoodMat <- expand.grid(x1=seq(x1_range[1], x1_range[2], length.out = x1_res), x2=seq(x2_range[1], x2_range[2], length.out = x2_res))
 
-x1m_res <- 100 #resolution for graphs
-x2m_res <- 100
+likelihoodMat$l <- likelihood_2Tap_EqVar(x1m=x1m, x2m=x2m, x1=likelihoodMat$x1, x2=likelihoodMat$x2, sigma_s = sigma_s)
 
-
-likelihoodMat <- expand.grid(x1m=seq(x1m_range[1], x1m_range[2], length.out = x1m_res), x2m=seq(x2m_range[1], x2m_range[2], length.out = x2m_res))
-
-likelihoodMat$l <- likelihood_2Tap_EqVar(x1m = likelihoodMat$x1m, x2m = likelihoodMat$x2m, x1=2, x2=7, sigma_s = 1)
-
-p2 <- ggplot(likelihoodMat, aes(x=x1m, y=x2m, fill=l)) +
+p2 <- ggplot(likelihoodMat, aes(x=x1, y=x2, fill=l)) +
   geom_raster() +
   coord_fixed() +
   ggtitle("likelihood") +
   theme(legend.position = "none")
 
 
+
 ### XXX Compute posterior density
 posteriorMat <- expand.grid(x1=seq(x1_range[1], x1_range[2], length.out = x1_res), x2=seq(x2_range[1], x2_range[2], length.out = x2_res))
 
-posteriorMat$p <- posterior_2Tap_EqVar(x1m = 2, x2m = 7, x1 = posteriorMat$x1, x2 = posteriorMat$x2, sigma_s = 1, sigma_v = 10, time_t = 0.1)
+posteriorMat$p <- posterior_2Tap_EqVar(x1m=x1m, x2m=x2m, x1 = posteriorMat$x1, x2 = posteriorMat$x2, sigma_s = sigma_s, sigma_v = sigma_v, time_t = time_t)
 
 p3 <- ggplot(posteriorMat, aes(x=x1, y=x2, fill=p)) +
   geom_raster() +

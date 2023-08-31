@@ -1,6 +1,6 @@
 Package: rabBITS
 Title: Bayesian Integration of Time and Space
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: 
     person(given="Xaver", family="Fuchs", email="xaver.fuchs@plus.ac.at", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-7690-8969"))
@@ -11,7 +11,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Imports:
     tidyverse,
-    cowplot
+    patchwork
 Suggests: 
     knitr,
     rmarkdown

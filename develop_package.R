@@ -47,7 +47,7 @@ devtools::build_readme()
 
 
 # Authoring vignettes
-usethis::use_vignette("Bayes_Modeling_Intro")
+usethis::use_vignette("B_two_tap_scenario_unequalVar")
 
 # Authtoring functions
 usethis::use_r("two_tap_model.R")

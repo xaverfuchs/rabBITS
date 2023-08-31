@@ -45,6 +45,13 @@
 <li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="articles/A_two_tap_scenario_equalVariance.html">The two-tap scenario with equal variances</a>
+    <a class="dropdown-item" href="articles/B_two_tap_scenario_unequalVar.html">The two-tap scenario with unequal variances</a>
+  </div>
+</li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
@@ -57,8 +64,131 @@
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <main id="main" class="col-md-9">
-This package implements Bayesian Observer models of perceptual spatiotemporal illusions, such as the tau effect, kappa effect, and cutaneous rabbit effect. 
+  <main id="main" class="col-md-9"><div class="section level1">
+<div class="page-header">
+<img src="logo.png" class="logo" alt=""><h1 id="rabbits---bayesian-integration-of-time-and-space">rabBITS - Bayesian Integration of Time and Space<a class="anchor" aria-label="anchor" href="#rabbits---bayesian-integration-of-time-and-space"></a>
+</h1>
+</div>
+<!-- badges: start -->
+<!-- badges: end -->
+<p><img src="reference/figures/logo.png" alt="drawing" width="20%" align="right"></p>
+<p>The <em>rabBITS</em> package provides an R-based implementation of Bayesian models for spatio-temporal perceptual integration, with the main purpose of explaining tactile perceptual illusions, including the tau effect, the kappa effect, and the cutaneous rabbit effect. The code has been developed based on the research by Dr. Daniel Goldreich, as documented in these articles:</p>
+<ul>
+<li>Goldreich, D. (2007). A Bayesian Perceptual Model Replicates the Cutaneous Rabbit and Other Tactile Spatiotemporal Illusions. PLoS ONE, 2(3), e333. <a href="https://doi.org/10.1371/journal.pone.0000333" class="external-link uri">https://doi.org/10.1371/journal.pone.0000333</a>
+</li>
+<li>Goldreich, D., &amp; Tong, J. (2013). Prediction, Postdiction, and Perceptual Length Contraction: A Bayesian Low-Speed Prior Captures the Cutaneous Rabbit and Related Illusions. Frontiers in Psychology, 4. <a href="https://doi.org/10.3389/fpsyg.2013.00221" class="external-link uri">https://doi.org/10.3389/fpsyg.2013.00221</a>
+</li>
+<li>Martel, M., Fuchs, X., Trojan, J., Gockel, V., Habets, B., &amp; Heed, T. (2022). Illusory tactile movement crosses arms and legs and is coded in external space. Cortex, 149, 202–225. <a href="https://doi.org/10.1016/j.cortex.2022.01.014" class="external-link uri">https://doi.org/10.1016/j.cortex.2022.01.014</a>
+</li>
+</ul>
+<p>The aim is to implement R code and replicate selected analyses and figures from the articles to improve the accessibility and applicability of the models for data analysis in the open source <a href="https://www.r-project.org/" class="external-link">R programming language</a>.</p>
+<div class="section level2">
+<h2 id="website">Website<a class="anchor" aria-label="anchor" href="#website"></a>
+</h2>
+<p>Read the detailed documentation including plenty of examples here…</p>
+<p><a href="https://xaverfuchs.github.io/rabBITS/" class="uri">https://xaverfuchs.github.io/rabBITS/</a></p>
+</div>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>You can install the development version of <em>rabBITS</em> from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"xaverfuchs/rabBITS"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="example-case">Example case<a class="anchor" aria-label="anchor" href="#example-case"></a>
+</h2>
+<p>Let’s assume two touch stimuli are presented on the skin. The first tap in one position, and the second tap 5 cm further away from that, in position 2. We refer to these parameters as <em>x1m</em> and <em>x2m</em> and will use values of 2 and 7 cm, respecively. Let’s also assume the speed is fast, because there are only 100 ms (0.1 s) passing between them, which is the parameter <em>time_t</em></p>
+<p>The perception on the skin also has a certain precision, which is defined by the (inverse) precision given by the spatial standard deviation <em>sigma_s</em>, here 1 cm. Finally, the model assumes a relatively low movement speed, which is given by the slow speed prior, defined as <em>sigma_v</em>, here 10 cm/s.</p>
+<p>The package allows to easily compute the prior, likelihood, and posterior distributions for visualization and inference.</p>
+<div class="section level3">
+<h3 id="plots-of-prior-likelihood-and-posterior">Plots of prior, likelihood, and posterior<a class="anchor" aria-label="anchor" href="#plots-of-prior-likelihood-and-posterior"></a>
+</h3>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://xaverfuchs.github.io/rabBITS/">rabBITS</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">### Paramters of the stimuli and observer</span></span>
+<span><span class="va">x1m</span><span class="op">=</span><span class="fl">2</span> <span class="co">#measured positin of tap 1</span></span>
+<span><span class="va">x2m</span><span class="op">=</span><span class="fl">7</span> <span class="co">#measured positino of tap 2</span></span>
+<span><span class="va">time_t</span> <span class="op">=</span> <span class="fl">0.1</span> <span class="co">#time between stimuli, i.e. interstimulus time</span></span>
+<span><span class="va">sigma_s</span> <span class="op">=</span> <span class="fl">1</span> <span class="co">#spatial (im)precision</span></span>
+<span><span class="va">sigma_v</span> <span class="op">=</span> <span class="fl">10</span> <span class="co">#low speed prior </span></span>
+<span></span>
+<span></span>
+<span></span>
+<span><span class="co">### Paraeters for the plots</span></span>
+<span><span class="va">x1_range</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span><span class="op">)</span> <span class="co">#range for taps</span></span>
+<span><span class="va">x2_range</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">x1_res</span> <span class="op">&lt;-</span> <span class="fl">100</span> <span class="co">#resolution for graphs</span></span>
+<span><span class="va">x2_res</span> <span class="op">&lt;-</span> <span class="fl">100</span></span>
+<span></span>
+<span></span>
+<span><span class="co">### XXX Compute prior density</span></span>
+<span><span class="va">priorMat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span>x1<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="va">x1_range</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">x1_range</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, length.out <span class="op">=</span> <span class="va">x1_res</span><span class="op">)</span>, x2<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="va">x2_range</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">x2_range</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, length.out <span class="op">=</span> <span class="va">x2_res</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">priorMat</span><span class="op">$</span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/prior_2Tap.html">prior_2Tap</a></span><span class="op">(</span>x1 <span class="op">=</span> <span class="va">priorMat</span><span class="op">$</span><span class="va">x1</span>, x2 <span class="op">=</span> <span class="va">priorMat</span><span class="op">$</span><span class="va">x2</span>, sigma_v <span class="op">=</span> <span class="va">sigma_v</span>, time_t <span class="op">=</span> <span class="va">time_t</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">priorMat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">x1</span>, y<span class="op">=</span><span class="va">x2</span>, fill<span class="op">=</span><span class="va">p</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_raster</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_fixed</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"prior"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co">### XXX Compute likelihood</span></span>
+<span><span class="va">likelihoodMat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span>x1<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="va">x1_range</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">x1_range</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, length.out <span class="op">=</span> <span class="va">x1_res</span><span class="op">)</span>, x2<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="va">x2_range</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">x2_range</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, length.out <span class="op">=</span> <span class="va">x2_res</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">likelihoodMat</span><span class="op">$</span><span class="va">l</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/likelihood_2Tap_EqVar.html">likelihood_2Tap_EqVar</a></span><span class="op">(</span>x1m<span class="op">=</span><span class="va">x1m</span>, x2m<span class="op">=</span><span class="va">x2m</span>, x1<span class="op">=</span><span class="va">likelihoodMat</span><span class="op">$</span><span class="va">x1</span>, x2<span class="op">=</span><span class="va">likelihoodMat</span><span class="op">$</span><span class="va">x2</span>, sigma_s <span class="op">=</span> <span class="va">sigma_s</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">likelihoodMat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">x1</span>, y<span class="op">=</span><span class="va">x2</span>, fill<span class="op">=</span><span class="va">l</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_raster</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_fixed</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"likelihood"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span></span>
+<span><span class="co">### XXX Compute posterior density</span></span>
+<span><span class="va">posteriorMat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span>x1<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="va">x1_range</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">x1_range</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, length.out <span class="op">=</span> <span class="va">x1_res</span><span class="op">)</span>, x2<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="va">x2_range</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">x2_range</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, length.out <span class="op">=</span> <span class="va">x2_res</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">posteriorMat</span><span class="op">$</span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/posterior_2Tap_EqVar.html">posterior_2Tap_EqVar</a></span><span class="op">(</span>x1m<span class="op">=</span><span class="va">x1m</span>, x2m<span class="op">=</span><span class="va">x2m</span>, x1 <span class="op">=</span> <span class="va">posteriorMat</span><span class="op">$</span><span class="va">x1</span>, x2 <span class="op">=</span> <span class="va">posteriorMat</span><span class="op">$</span><span class="va">x2</span>, sigma_s <span class="op">=</span> <span class="va">sigma_s</span>, sigma_v <span class="op">=</span> <span class="va">sigma_v</span>, time_t <span class="op">=</span> <span class="va">time_t</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">posteriorMat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">x1</span>, y<span class="op">=</span><span class="va">x2</span>, fill<span class="op">=</span><span class="va">p</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_raster</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_fixed</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"posterior"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># join plots</span></span>
+<span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span> <span class="op">+</span> <span class="va">p3</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="100%"></p>
+</div>
+<div class="section level3">
+<h3 id="parameters-of-the-posterior-distribution">Parameters of the posterior distribution<a class="anchor" aria-label="anchor" href="#parameters-of-the-posterior-distribution"></a>
+</h3>
+<p>According to Bayesian perception models, the posterior corresponds to perception. That is, the a position that is perceived can be computed by a maximum posterior estimate, such as the mode of the posterior distribution.</p>
+<p>The parameters of the posterior distribution can easily be computed, as shown in this example. <em>x1_star</em> and <em>x2_star</em> are the posterior modes for tap 1 and 2, respectively.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/posterior_params_2Tap_EqVar.html">posterior_params_2Tap_EqVar</a></span><span class="op">(</span>x1m <span class="op">=</span> <span class="fl">2</span>, x2m <span class="op">=</span> <span class="fl">7</span>, time_t <span class="op">=</span> <span class="fl">0.1</span>, sigma_s <span class="op">=</span> <span class="fl">1</span>, sigma_v <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $x1_star</span></span>
+<span><span class="co">#&gt; [1] 3.666667</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $x2_star</span></span>
+<span><span class="co">#&gt; [1] 5.333333</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $common_sigma_square</span></span>
+<span><span class="co">#&gt; [1] 0.6666667</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $correlation</span></span>
+<span><span class="co">#&gt; [1] 0.5</span></span></code></pre></div>
+</div>
+</div>
+</div>
   </main><aside class="col-md-3"><div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
@@ -78,7 +208,7 @@ This package implements Bayesian Observer models of perceptual spatiotemporal il
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Xaver Fuchs <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-7690-8969" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Xaver Fuchs <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-7690-8969" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
 
