@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   A_two_tap_scenario_equalVariance: A_two_tap_scenario_equalVariance.html
   B_two_tap_scenario_unequalVar: B_two_tap_scenario_unequalVar.html
-last_built: 2023-08-31T15:11Z
+last_built: 2023-08-31T15:13Z
 urls:
   reference: https://xaverfuchs.github.io/rabBITS/reference
   article: https://xaverfuchs.github.io/rabBITS/articles
