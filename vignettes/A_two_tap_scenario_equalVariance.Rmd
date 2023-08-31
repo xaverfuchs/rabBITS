@@ -115,12 +115,12 @@ In the following, we reproduce Figure 2 from Goldreich & Tong, 2013.
 The following parameters are used in the article and are used here for plotting.
 
 ```{r}
-### Paramters of the stimuli and observer
-x1m=3 #measured positin of tap 1 (in cm)
-x2m=7 #measured positino of tap 2 (in cm)
-time_t = 0.15 #time between stimuli, i.e. interstimulus time (in seconds)
+### Parameters of the stimuli and observer
+x1m=3 #measured position of tap 1 (in cm)
+x2m=7 #measured position of tap 2 (in cm)
+time_t = 0.15 #time between stimuli, i.e., interstimulus time (in seconds)
 sigma_s = 1 #spatial (im)precision (in cm as a sd)
-sigma_v = 10 #low speed prior   (in cm/s as an sd)
+sigma_v = 10 #low speed prior (in cm/s as an sd)
 
 ```
 
@@ -140,7 +140,7 @@ x1x2Mat <- expand.grid(x1=seq(x1_range[1], x1_range[2], length.out = x1_res), x2
 
 ```
 
-Compute the values for the whole matrix
+### Compute the values for the whole matrix
 ```{r}
 ### XXX Compute prior density
 x1x2Mat$prior <- prior_2Tap(x1 = x1x2Mat$x1, x2 = x1x2Mat$x2, time_t = time_t, sigma_v = sigma_v)
